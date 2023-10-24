@@ -24,8 +24,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'my.scc.clockwise.clockwise'
-    mainClass = 'my.scc.clockwise.clockwise.HelloApplication'
+    mainModule = 'ca.myscc.clockwise'
+    mainClass = 'ca.myscc.clockwise.HelloApplication'
 }
 
 javafx {

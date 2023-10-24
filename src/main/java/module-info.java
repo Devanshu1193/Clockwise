@@ -3,6 +3,6 @@ module my.scc.clockwise.clockwise {
     requires javafx.fxml;
 
 
-    opens my.scc.clockwise.clockwise to javafx.fxml;
-    exports my.scc.clockwise.clockwise;
+    opens ca.myscc.clockwise to javafx.fxml;
+    exports ca.myscc.clockwise;
 }

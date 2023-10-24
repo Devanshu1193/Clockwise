@@ -1,4 +1,4 @@
-package my.scc.clockwise.clockwise;
+package ca.myscc.clockwise;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
