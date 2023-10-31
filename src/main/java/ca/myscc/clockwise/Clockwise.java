@@ -34,7 +34,6 @@ public class Clockwise extends Application {
         Database.getInstance().pullData();
 
         Database.getInstance().connect();
-        System.out.println("Connected? " + Database.getInstance().isConnected());
         Database.getInstance().disconnect();
 
         new DatabaseSetupScene().open();

@@ -123,7 +123,7 @@ public final class Database {
      * @author Santio Yousif
      * @date Oct. 31, 2023
      */
-    public boolean isSetup() {
+    private boolean isSetup() {
         if (!isConnected()) return true;
 
         try {
