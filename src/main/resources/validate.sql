@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM users LIMIT 1

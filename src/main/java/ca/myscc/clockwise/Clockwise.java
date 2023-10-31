@@ -7,6 +7,10 @@ import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 /**
  * The main entrypoint for the Clockwise containing essential information
  * for the app to function.
@@ -55,6 +59,27 @@ public class Clockwise extends Application {
      */
     public static Stage getStage() {
         return stage;
+    }
+
+    /**
+     * Gets a resource file as a UTF-8 string
+     * @param file The file to get
+     * @return The file content, or null if it doesn't exist or
+     * can't be decoded.
+     * @author Santio Yousif
+     * @date Oct. 31, 2023
+     */
+    public static String getResourceAsString(String file) {
+        try {
+            try (InputStream stream = Clockwise.class.getClassLoader().getResourceAsStream(file)) {
+                if (stream == null) throw new IllegalStateException("Failed to find the setup script");
+
+                return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

@@ -1,8 +1,10 @@
 package ca.myscc.clockwise.database;
 
+import ca.myscc.clockwise.Clockwise;
+
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -79,7 +81,11 @@ public final class Database {
         if (this.details == null) return;
         this.connection = this.details.toConnection();
 
-        if (isConnected()) runSetup();
+        System.out.println("Is Setup? " + isSetup());
+
+        if (isConnected() && !isSetup()) runSetup();
+
+        System.out.println("Is Setup 2? " + isSetup());
     }
 
     /**
@@ -112,20 +118,36 @@ public final class Database {
     }
 
     /**
+     * Checks if the database connected is currently setup
+     * @return Whether the database is set up, else true if not connected
+     * @author Santio Yousif
+     * @date Oct. 31, 2023
+     */
+    public boolean isSetup() {
+        if (!isConnected()) return true;
+
+        try {
+            String sql = Clockwise.getResourceAsString("validate.sql");
+            ResultSet result = this.connection.prepareStatement(sql).executeQuery();
+            return result.next();
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
      * Run the setup for the database
      * @author Santio Yousif
      * @date Oct. 31, 2023
      */
     private void runSetup() {
         try {
-            InputStream stream = getClass().getClassLoader().getResourceAsStream("database.sql");
-            if (stream == null) throw new IllegalStateException("Failed to find the setup script");
-
-            String sql = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
-            this.connection.prepareStatement(sql).execute();
-
-            stream.close();
-        } catch (IOException | SQLException e) {
+            String[] sql = Clockwise.getResourceAsString("database.sql").split("\n\n");
+            for (String query : sql) {
+                if (query.trim().isEmpty()) continue;
+                this.connection.prepareStatement(query).execute();
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
