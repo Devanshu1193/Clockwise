@@ -219,3 +219,4 @@ $RECYCLE.BIN/
 ### Extra Configurations ###
 build/
 .gradle/
+data.clockwise

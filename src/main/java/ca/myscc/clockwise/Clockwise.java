@@ -1,5 +1,7 @@
 package ca.myscc.clockwise;
 
+import ca.myscc.clockwise.database.ConnectionDetails;
+import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.scenes.BaseScene;
 import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import javafx.application.Application;
@@ -19,6 +21,17 @@ public class Clockwise extends Application {
     public void start(Stage stage) {
         Clockwise.stage = stage;
         stage.setTitle("Clockwise");
+
+        Database.getInstance().setDetails(new ConnectionDetails(
+            "localhost", "syousifjava", "syousif", "vwv15vwv15tdtxstdtxs"
+        ));
+
+        Database.getInstance().pushData();
+        Database.getInstance().pullData();
+
+        Database.getInstance().connect();
+        System.out.println("Connected? " + Database.getInstance().isConnected());
+        Database.getInstance().disconnect();
 
         new DatabaseSetupScene().open();
 

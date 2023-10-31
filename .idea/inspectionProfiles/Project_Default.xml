@@ -7,6 +7,7 @@
     <inspection_tool class="JavadocHtmlLint" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="MissingDeprecatedAnnotation" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MissingJavadoc" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="GRAMMAR_ERROR">
+      <option name="IGNORE_ACCESSORS" value="true" />
       <option name="PACKAGE_SETTINGS">
         <Options>
           <option name="REQUIRED_TAGS" value="@author@version@date" />
