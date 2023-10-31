@@ -25,17 +25,6 @@ public class Clockwise extends Application {
     public void start(Stage stage) {
         Clockwise.stage = stage;
         stage.setTitle("Clockwise");
-
-        Database.getInstance().setDetails(new ConnectionDetails(
-            "localhost", "syousifjava", "syousif", "vwv15vwv15tdtxstdtxs"
-        ));
-
-        Database.getInstance().pushData();
-        Database.getInstance().pullData();
-
-        Database.getInstance().connect();
-        Database.getInstance().disconnect();
-
         new DatabaseSetupScene().open();
 
         stage.show();
