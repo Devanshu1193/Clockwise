@@ -18,19 +18,19 @@ public final class Constants {
     public static final int SCREEN_WIDTH = 1024;
     public static final int SCREEN_HEIGHT = 1024;
 
-    public static final Paint TEXT_COLOR = Color.color(
+    public static final Color TEXT_COLOR = Color.color(
         200 / 255.0,
         220 / 255.0,
         230 / 255.0
     );
 
-    public static final Paint PRIMARY_COLOR = Color.color(
+    public static final Color PRIMARY_COLOR = Color.color(
         20 / 255.0,
         130 / 255.0,
         200 / 255.0
     );
 
-    public static final Paint BACKGROUND_COLOR = Color.color(
+    public static final Color BACKGROUND_COLOR = Color.color(
         20 / 255.0,
         20 / 255.0,
         30 / 255.0

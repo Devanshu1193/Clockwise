@@ -2,8 +2,12 @@ package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * A base class for scenes so that all scenes we create will have a similar
@@ -22,21 +26,16 @@ public abstract class BaseScene extends Scene {
      * @date Oct. 24, 2023
      */
     public BaseScene() {
-        super(new BorderPane(), 1024, 768);
-        BorderPane root = (BorderPane) super.getRoot();
+        super(new StackPane(), 1024, 768);
+        StackPane root = (StackPane) super.getRoot();
         root.setBackground(Constants.BACKGROUND);
 
-        start(root);
+        root.getChildren().add(start());
     }
 
-    /**
-     * This is called immediately after this scene has been constructed and setup.
-     * You should place your code here as it provides you the root border pane
-     * and prevents you from overwriting the default behaviour.
-     * @author Santio Yousif
-     * @date Oct. 24, 2023
-     */
-    abstract void start(BorderPane root);
+
+
+
 
     /**
      * Gets the main stage for the project and changes the scene on it
@@ -47,5 +46,12 @@ public abstract class BaseScene extends Scene {
     public void open() {
         Clockwise.getStage().setScene(this);
     }
-
+    /**
+     * This is called immediately after this scene has been constructed and setup.
+     * You should place your code here as it provides you the root border pane
+     * and prevents you from overwriting the default behaviour.
+     * @author Santio Yousif
+     * @date Oct. 24, 2023
+     */
+    abstract Pane start();
 }
