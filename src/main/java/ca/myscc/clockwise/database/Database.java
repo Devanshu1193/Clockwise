@@ -6,6 +6,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -47,17 +48,18 @@ public final class Database {
      */
     public static CompletableFuture<Boolean> testConnection(ConnectionDetails connection) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
+        if (connection == null) future.complete(false);
 
         // Run asynchronously, this chooses a thread from a pool that's available for us to run
         // code in
         Executors.newSingleThreadExecutor().execute(() -> {
-            try (Connection database = connection.toConnection()) {
+            try (Connection database = Objects.requireNonNull(connection).toConnection()) {
 
                 // Successful connection, make sure we aren't closed, and we can consider
                 // this connection to be valid
-                future.complete(!database.isClosed());
+                future.complete(database != null && !database.isClosed());
 
-            } catch (SQLException exception) {
+            } catch (SQLException | NullPointerException exception) {
                 future.complete(false);
             }
         });
@@ -152,13 +154,20 @@ public final class Database {
     private boolean isSetup() {
         if (!isConnected()) return true;
 
-        try {
-            String sql = Clockwise.getResourceAsString("validate.sql");
-            ResultSet result = this.connection.prepareStatement(sql).executeQuery();
-            return result.next();
-        } catch (SQLException e) {
-            return false;
+        String sql = Clockwise.getResourceAsString("validate.sql");
+        if (sql == null) return false;
+
+        String[] queries = sql.split("\n");
+        for (String query : queries) {
+            try {
+                ResultSet result = this.connection.prepareStatement(query).executeQuery();
+                if (!result.next()) return false;
+            } catch (SQLException e) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     /**
@@ -168,7 +177,7 @@ public final class Database {
      */
     private void runSetup() {
         try {
-            String[] sql = Clockwise.getResourceAsString("database.sql").split("\n\n");
+            String[] sql = Clockwise.getResourceAsString("database.sql").split(";");
             for (String query : sql) {
                 if (query.trim().isEmpty()) continue;
                 this.connection.prepareStatement(query).execute();

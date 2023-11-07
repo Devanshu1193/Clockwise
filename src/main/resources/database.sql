@@ -10,5 +10,13 @@ CREATE TABLE times(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     time_started INT NOT NULL,
-    time_stopped INT NOT NULL
+    time_stopped INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE wages(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    wage DECIMAL(6,2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
