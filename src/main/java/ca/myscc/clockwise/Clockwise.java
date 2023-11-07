@@ -27,9 +27,9 @@ public class Clockwise extends Application {
         new DatabaseSetupScene().open();
 
         Database.getInstance().pullData();
-        Database.testConnection(Database.getInstance().getDetails()).thenAccept((success) -> {
-            System.out.println("Successfully connected to the database: " + success);
-            if (success) Database.getInstance().connect();
+        Database.testConnection(Database.getInstance().getDetails()).thenAccept((error) -> {
+            System.out.println("Successfully connected to the database: " + (error == null));
+            if (error == null) Database.getInstance().connect();
         });
 
         stage.show();

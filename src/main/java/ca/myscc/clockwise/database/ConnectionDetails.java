@@ -66,14 +66,9 @@ public class ConnectionDetails {
      * @return A database connection, or null.
      */
     @SuppressWarnings("Java9ReflectionClassVisibility")
-    public Connection toConnection() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.name, this.username, this.password);
-        } catch(SQLException | ClassNotFoundException e) {
-            System.out.println("Failed to connect to the database: " + e.getMessage());
-            return null;
-        }
+    public Connection toConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        return DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.name, this.username, this.password);
     }
 
     public String getHost() {

@@ -1,19 +1,23 @@
 package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Constants;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import ca.myscc.clockwise.database.ConnectionDetails;
+import ca.myscc.clockwise.database.Database;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * This scene controls the setup of the database, this is shown only on first launch
@@ -65,7 +69,7 @@ public class DatabaseSetupScene extends BaseScene {
         Label dbPassword = new Label("PASSWORD : ");
         dbPassword.setTextFill(Constants.TEXT_COLOR);
         dbPassword.setFont(Font.font("Arial", FontWeight.BOLD,18));
-        TextField passTextField = new TextField();
+        TextField passTextField = new PasswordField();
         gridPane.add(dbPassword, 0,3);
         gridPane.add(passTextField,1,3);
 
@@ -77,6 +81,12 @@ public class DatabaseSetupScene extends BaseScene {
         gridPane.add(dbName,0,4);
         gridPane.add(nameTextField, 1,4);
 
+        // 7th row
+        Label error = new Label("");
+        error.setTextFill(Color.RED);
+        error.setTextAlignment(TextAlignment.RIGHT);
+        gridPane.add(error, 0, 7, 2, 1);
+
         // Buttons
         Button validateButton = new Button("Validate");
         Button continueButton = new Button("Continue");
@@ -84,9 +94,28 @@ public class DatabaseSetupScene extends BaseScene {
 
         validateButton.setOnAction(event -> {
             validateButton.setEffect(shadow);
-            validateButton.setText("Valid");
-            continueButton.setDisable(false);
+            validateButton.setText("Testing...");
             validateButton.setDisable(true);
+
+            ConnectionDetails connection = new ConnectionDetails(
+                dbHost.getText(),
+                dbName.getText(),
+                dbUser.getText(),
+                dbPassword.getText()
+            );
+
+            Database.testConnection(connection).thenAccept((msg) -> {
+                Platform.runLater(() -> {
+                    if (msg == null) continueButton.setDisable(false);
+                    else {
+                        validateButton.setDisable(false);
+                        continueButton.setDisable(true);
+                        validateButton.setText("Validate");
+
+                        error.setText(msg.split("\n")[0]);
+                    }
+                });
+            });
         });
 
         continueButton.setOnAction(event -> {
@@ -99,7 +128,6 @@ public class DatabaseSetupScene extends BaseScene {
         continueButton.setDisable(true);
 
         gridPane.add(validateButton,0,6);
-
         gridPane.add(continueButton,1,6);
 
         // Scene

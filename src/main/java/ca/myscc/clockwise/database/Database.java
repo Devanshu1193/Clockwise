@@ -44,14 +44,14 @@ public final class Database {
      * Tests a connection detail to see if it can properly
      * connect or not, this does not set any values.
      * @param connection The connection details to test
-     * @return A completable future holding whether the connection
-     * is valid or not
+     * @return A completable future holding the error message
+     * in a string, or null if there are no errors
      * @author Santio Yousif
      * @date Nov. 7, 2023
      */
-    public static CompletableFuture<Boolean> testConnection(ConnectionDetails connection) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-        if (connection == null) future.complete(false);
+    public static CompletableFuture<String> testConnection(ConnectionDetails connection) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        if (connection == null) future.complete("Connection provided is null");
 
         // Run asynchronously, this chooses a thread from a pool that's available for us to run
         // code in
@@ -60,10 +60,10 @@ public final class Database {
 
                 // Successful connection, make sure we aren't closed, and we can consider
                 // this connection to be valid
-                future.complete(database != null && !database.isClosed());
+                future.complete(database != null && !database.isClosed() ? null : "Database is closed");
 
-            } catch (SQLException | NullPointerException exception) {
-                future.complete(false);
+            } catch (SQLException | NullPointerException | ClassNotFoundException exception) {
+                future.complete(exception.getMessage());
             }
         });
 
@@ -114,13 +114,17 @@ public final class Database {
      * @date Oct. 31, 2023
      */
     public void connect() {
-        if (this.details == null) return;
-        this.connection = this.details.toConnection();
+        try {
+            if (this.details == null) return;
+            this.connection = this.details.toConnection();
 
-        if (isConnected()) {
-            if (!isSetup()) runSetup();
+            if (isConnected()) {
+                if (!isSetup()) runSetup();
 
-            this.users = new UserQuery(this.connection);
+                this.users = new UserQuery(this.connection);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
