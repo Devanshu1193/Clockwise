@@ -1,7 +1,5 @@
 package ca.myscc.clockwise;
 
-import ca.myscc.clockwise.database.ConnectionDetails;
-import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.scenes.BaseScene;
 import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import javafx.application.Application;

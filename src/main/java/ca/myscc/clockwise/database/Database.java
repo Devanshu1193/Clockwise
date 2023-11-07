@@ -6,6 +6,8 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +34,35 @@ public final class Database {
      */
     public static Database getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Tests a connection detail to see if it can properly
+     * connect or not, this does not set any values.
+     * @param connection The connection details to test
+     * @return A completable future holding whether the connection
+     * is valid or not
+     * @author Santio Yousif
+     * @date Nov. 7, 2023
+     */
+    public static CompletableFuture<Boolean> testConnection(ConnectionDetails connection) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        // Run asynchronously, this chooses a thread from a pool that's available for us to run
+        // code in
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try (Connection database = connection.toConnection()) {
+
+                // Successful connection, make sure we aren't closed, and we can consider
+                // this connection to be valid
+                future.complete(!database.isClosed());
+
+            } catch (SQLException exception) {
+                future.complete(false);
+            }
+        });
+
+        return future;
     }
 
     /**
@@ -80,12 +111,7 @@ public final class Database {
     public void connect() {
         if (this.details == null) return;
         this.connection = this.details.toConnection();
-
-        System.out.println("Is Setup? " + isSetup());
-
         if (isConnected() && !isSetup()) runSetup();
-
-        System.out.println("Is Setup 2? " + isSetup());
     }
 
     /**
