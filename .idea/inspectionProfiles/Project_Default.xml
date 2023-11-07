@@ -13,6 +13,11 @@
           <option name="REQUIRED_TAGS" value="@author@version@date" />
         </Options>
       </option>
+      <option name="FIELD_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
     </inspection_tool>
   </profile>
 </component>

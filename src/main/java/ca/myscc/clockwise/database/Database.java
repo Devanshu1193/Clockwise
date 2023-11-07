@@ -1,6 +1,7 @@
 package ca.myscc.clockwise.database;
 
 import ca.myscc.clockwise.Clockwise;
+import ca.myscc.clockwise.database.queries.UserQuery;
 
 import java.io.*;
 import java.sql.Connection;
@@ -26,6 +27,8 @@ public final class Database {
     private ConnectionDetails details;
     private Connection connection;
     private final File saveFile = new File("./data.clockwise");
+
+    public UserQuery users;
 
     /**
      * Gets the main database instance
@@ -113,7 +116,12 @@ public final class Database {
     public void connect() {
         if (this.details == null) return;
         this.connection = this.details.toConnection();
-        if (isConnected() && !isSetup()) runSetup();
+
+        if (isConnected()) {
+            if (!isSetup()) runSetup();
+
+            this.users = new UserQuery(this.connection);
+        }
     }
 
     /**
