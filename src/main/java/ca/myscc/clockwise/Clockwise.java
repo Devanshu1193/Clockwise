@@ -5,6 +5,7 @@ import ca.myscc.clockwise.scenes.BaseScene;
 import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import ca.myscc.clockwise.scenes.MainScene;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,12 +31,15 @@ public class Clockwise extends Application {
         Database.getInstance().pullData();
         Database.testConnection(Database.getInstance().getDetails()).thenAccept((error) -> {
             System.out.println("Successfully connected to the database: " + (error == null));
-            if (error == null) {
-                Database.getInstance().connect();
-                new MainScene().open();
-            } else {
-                new DatabaseSetupScene().open();
-            }
+
+            Platform.runLater(() -> {
+                if (error == null) {
+                    Database.getInstance().connect();
+                    new MainScene().open();
+                } else {
+                    new DatabaseSetupScene().open();
+                }
+            });
         });
 
         stage.show();
