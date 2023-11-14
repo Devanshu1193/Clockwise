@@ -96,21 +96,22 @@ public class DatabaseSetupScene extends BaseScene {
             validateButton.setEffect(shadow);
             validateButton.setText("Testing...");
             validateButton.setDisable(true);
+            error.setText("");
 
             ConnectionDetails connection = new ConnectionDetails(
-                dbHost.getText(),
-                dbName.getText(),
-                dbUser.getText(),
-                dbPassword.getText()
+                hostTextField.getText(),
+                nameTextField.getText(),
+                userTextField.getText(),
+                passTextField.getText()
             );
 
             Database.testConnection(connection).thenAccept((msg) -> {
                 Platform.runLater(() -> {
+                    validateButton.setText("Validate");
                     if (msg == null) continueButton.setDisable(false);
                     else {
                         validateButton.setDisable(false);
                         continueButton.setDisable(true);
-                        validateButton.setText("Validate");
 
                         error.setText(msg.split("\n")[0]);
                     }
