@@ -1,6 +1,7 @@
 package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Constants;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -21,10 +22,13 @@ public class LoginScene extends BaseScene {
     @Override
     Pane start() {
         GridPane root = new GridPane();
+        root.setAlignment(Pos.CENTER);
 
         // Create components
         Label loginUserIdLabel = new Label("User ID:");
         Label loginPasswordLabel = new Label("Password:");
+        loginUserIdLabel.setTextFill(Constants.TEXT_COLOR);
+        loginPasswordLabel.setTextFill(Constants.TEXT_COLOR);
 
         TextField loginUserIdField = new TextField();
         PasswordField loginPasswordField = new PasswordField();
@@ -46,7 +50,7 @@ public class LoginScene extends BaseScene {
         });
 
         createAccountButton.setOnMouseClicked((e) -> {
-            // TODO: Switch to register screen
+            new RegisterScene().open();
         });
 
         return root;

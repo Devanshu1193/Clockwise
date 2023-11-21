@@ -2,10 +2,7 @@ package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -32,9 +29,6 @@ public abstract class BaseScene extends Scene {
 
         root.getChildren().add(start());
     }
-
-
-
 
 
     /**
