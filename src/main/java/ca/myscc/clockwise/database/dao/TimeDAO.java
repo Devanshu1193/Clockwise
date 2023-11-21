@@ -1,5 +1,9 @@
 package ca.myscc.clockwise.database.dao;
 
+import ca.myscc.clockwise.database.pojo.Session;
+
+import java.util.List;
+
 /**
  * @date Nov. 14, 2023
  * @author Santio Yousif
@@ -9,17 +13,19 @@ public interface TimeDAO {
 
     /**
      * Save a timed session to the database
-     * @param userId The user associated with the session
-     * @param timeStarted The unix timestamp of when the session started
-     * @param timeEnded The unix timestamp of when the session ended
+     * @param session The session to save
+     * @author Santio Yousif
+     * @date Nov. 14, 2023
      */
-    void track(int userId, long timeStarted, long timeEnded);
+    void track(Session session);
 
     /**
-     * Checks if a user already has a certain username
-     * @param username The username to check
-     * @return Whether a user is already associated with the name
+     * Gets all sessions associated with a user id
+     * @param userId The user id to check
+     * @return A list of all sessions belonging to the user
+     * @author Santio Yousif
+     * @date Nov. 21, 2023
      */
-    List<Sessions> exists(String username);
+    List<Session> getSessions(int userId);
 
 }
