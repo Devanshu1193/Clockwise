@@ -2,7 +2,7 @@ package ca.myscc.clockwise;
 
 import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.scenes.BaseScene;
-import ca.myscc.clockwise.scenes.DatabaseSetupScene;
+import ca.myscc.clockwise.scenes.LoginScene;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -24,7 +24,7 @@ public class Clockwise extends Application {
     public void start(Stage stage) {
         Clockwise.stage = stage;
         stage.setTitle("Clockwise");
-        new DatabaseSetupScene().open();
+        new LoginScene().open();
 
         Database.getInstance().pullData();
         Database.testConnection(Database.getInstance().getDetails()).thenAccept((error) -> {
