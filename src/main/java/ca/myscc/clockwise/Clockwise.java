@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The main entrypoint for the Clockwise containing essential information
@@ -21,7 +22,7 @@ public class Clockwise extends Application {
     private static Stage stage;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws ExecutionException, InterruptedException {
         Clockwise.stage = stage;
         stage.setTitle("Clockwise");
         new LoginScene().open();
