@@ -42,7 +42,7 @@ public class TimeQuery implements TimeDAO {
             statement.setLong(2, session.getTimeStarted());
             statement.setLong(3, session.getTimeEnded());
 
-            statement.executeQuery();
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
