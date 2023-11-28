@@ -28,7 +28,7 @@ public class MainScene extends BaseScene{
         countTitleDS.setColor(Constants.PRIMARY_COLOR);
 
         // Title for the Count
-        Text countTitle = new Text("TIME CLOCK");
+        Text countTitle = new Text("CLOCKWISE");
         countTitle.setFill(Constants.TEXT_COLOR);
         countTitle.setFont(Font.font("Arial", FontWeight.BOLD,48));
         countTitle.setEffect(countTitleDS);
