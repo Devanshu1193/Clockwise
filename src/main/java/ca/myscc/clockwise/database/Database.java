@@ -3,6 +3,7 @@ package ca.myscc.clockwise.database;
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.database.queries.TimeQuery;
 import ca.myscc.clockwise.database.queries.UserQuery;
+import ca.myscc.clockwise.database.queries.WageQuery;
 
 import java.io.*;
 import java.sql.Connection;
@@ -31,6 +32,7 @@ public final class Database {
 
     public UserQuery users;
     public TimeQuery sessions;
+    public WageQuery wages;
 
     /**
      * Gets the main database instance
@@ -125,6 +127,7 @@ public final class Database {
 
                 this.users = new UserQuery(this.connection);
                 this.sessions = new TimeQuery(this.connection);
+                this.wages = new WageQuery(this.connection);
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
