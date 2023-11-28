@@ -53,16 +53,21 @@ public class MainScene extends BaseScene{
 
         Background greenBg = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
         Background redBg = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
+        Background grayBg = new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), null));
 
         mainButton.setBackground(greenBg);
-        mainButton.setFont(Font.font("Arial",FontWeight.BOLD,18));
-
         mainButton.setFont(Font.font(16));
         mainButton.setMinWidth(300);
-        VBox buttonVBox = new VBox(mainButton);
-        VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
-        buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
 
+        Button historyButton = new Button("View History");
+        historyButton.setBackground(grayBg);
+        historyButton.setFont(Font.font(14));
+        historyButton.setMinWidth(175);
+
+        VBox buttonVBox = new VBox(mainButton, historyButton);
+        VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
+        buttonVBox.setSpacing(20);
+        buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
 
         root.setCenter(timer);
         root.setTop(vBox);
@@ -94,6 +99,10 @@ public class MainScene extends BaseScene{
                 mainButton.setText("FINISH");
                 Clockwise.getTimer().start();
             }
+        });
+
+        historyButton.setOnAction((e) -> {
+            new HistoryScene().open();
         });
 
         return root;

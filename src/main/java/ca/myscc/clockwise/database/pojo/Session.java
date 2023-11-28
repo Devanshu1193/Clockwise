@@ -7,7 +7,7 @@ import java.time.Duration;
  * @author Santio Yousif
  * @version 1.0
  */
-public class Session {
+public class  Session {
 
     private int user;
     private long timeStarted;
@@ -26,8 +26,10 @@ public class Session {
         this.timeEnded = timeEnded;
     }
 
-    public Duration getDuration() {
-        return Duration.ofMillis(timeEnded - timeStarted);
+    public String asFormatted() {
+        Duration duration = Duration.ofSeconds(this.timeEnded - this.timeStarted);
+        return String.format("%2d:%2d:%2d", duration.toHoursPart(), duration.toMinutesPart(), duration.toSecondsPart())
+            .replace(" ", "0");
     }
 
     public int getUser() {
