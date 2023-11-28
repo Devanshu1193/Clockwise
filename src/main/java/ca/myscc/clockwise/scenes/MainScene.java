@@ -36,8 +36,6 @@ public class MainScene extends BaseScene{
         VBox vBox = new VBox(countTitle);
         vBox.setAlignment(Pos.TOP_CENTER);
 
-
-
         // Timer clock
         Text timer = new Text("00:00:00");
         timer.setFill(Constants.PRIMARY_COLOR);
