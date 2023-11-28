@@ -4,7 +4,6 @@ import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.scenes.BaseScene;
 import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import ca.myscc.clockwise.scenes.LoginScene;
-import ca.myscc.clockwise.scenes.MainScene;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -23,6 +22,7 @@ public class Clockwise extends Application {
 
     // Constants
     private static Stage stage;
+    private static final Timer timer = new Timer();
 
     @Override
     public void start(Stage stage) throws ExecutionException, InterruptedException {
@@ -63,6 +63,16 @@ public class Clockwise extends Application {
      */
     public static Stage getStage() {
         return stage;
+    }
+
+    /**
+     * Gets the stopwatch used to time the user.
+     * @return The timer used to track time
+     * @date Nov. 28, 2023
+     * @author Santio Yousif
+     */
+    public static Timer getTimer() {
+        return timer;
     }
 
     /**

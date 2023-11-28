@@ -1,5 +1,6 @@
 package ca.myscc.clockwise.scenes;
 
+import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
 /**
  * This scene is the main Scene or you can say main screen of Clockwise
  * allow the user to store their records and show up their history
@@ -43,13 +45,17 @@ public class MainScene extends BaseScene{
 
 
         // Start button
-        Button startButton = new Button("START");
-        startButton.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null)));
-        startButton.setFont(Font.font("Arial",FontWeight.BOLD,18));
+        Button mainButton = new Button("START");
 
-        startButton.setFont(Font.font(16));
-        startButton.prefWidth(20);
-        VBox buttonVBox = new VBox(startButton);
+        Background greenBg = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
+        Background redBg = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
+
+        mainButton.setBackground(greenBg);
+        mainButton.setFont(Font.font("Arial",FontWeight.BOLD,18));
+
+        mainButton.setFont(Font.font(16));
+        mainButton.setMinWidth(300);
+        VBox buttonVBox = new VBox(mainButton);
         VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
         buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -58,6 +64,22 @@ public class MainScene extends BaseScene{
         root.setTop(vBox);
         root.setBottom(buttonVBox);
         root.setPadding(new Insets(50,0,50,0));
+
+        Clockwise.getTimer().listen(() -> {
+            timer.setText(Clockwise.getTimer().getTime());
+        });
+
+        mainButton.setOnAction((e) -> {
+            if (Clockwise.getTimer().isRunning()) {
+                mainButton.setBackground(greenBg);
+                mainButton.setText("START");
+                Clockwise.getTimer().reset();
+            } else {
+                mainButton.setBackground(redBg);
+                mainButton.setText("FINISH");
+                Clockwise.getTimer().start();
+            }
+        });
 
         return root;
     }
