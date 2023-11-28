@@ -30,7 +30,6 @@ public abstract class BaseScene extends Scene {
         root.getChildren().add(start());
     }
 
-
     /**
      * Gets the main stage for the project and changes the scene on it
      * over to this current scene object.
@@ -40,6 +39,7 @@ public abstract class BaseScene extends Scene {
     public void open() {
         Clockwise.getStage().setScene(this);
     }
+
     /**
      * This is called immediately after this scene has been constructed and setup.
      * You should place your code here as it provides you the root border pane
