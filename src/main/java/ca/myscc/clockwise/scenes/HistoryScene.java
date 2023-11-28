@@ -36,8 +36,6 @@ public class HistoryScene extends BaseScene {
             new MainScene().open();
         });
 
-        HBox graphs = new HBox();
-
         Text historyTitle = new Text("Your History");
         historyTitle.setFill(Constants.TEXT_COLOR);
         historyTitle.setFont(Font.font(32));

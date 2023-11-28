@@ -47,7 +47,6 @@ public class MainScene extends BaseScene{
         timer.setFill(Constants.PRIMARY_COLOR);
         timer.setFont(Font.font(48));
 
-
         // Start button
         Button mainButton = new Button("START");
 
@@ -64,7 +63,20 @@ public class MainScene extends BaseScene{
         historyButton.setFont(Font.font(14));
         historyButton.setMinWidth(175);
 
-        VBox buttonVBox = new VBox(mainButton, historyButton);
+        Button settingsButton = new Button("Settings");
+        settingsButton.setBackground(grayBg);
+        settingsButton.setFont(Font.font(14));
+        settingsButton.setMinWidth(115);
+
+        HBox buttonBox = new HBox(historyButton, settingsButton);
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER);
+
+        VBox buttonVBox = new VBox(
+            mainButton,
+            buttonBox
+        );
+
         VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
         buttonVBox.setSpacing(20);
         buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
@@ -103,6 +115,10 @@ public class MainScene extends BaseScene{
 
         historyButton.setOnAction((e) -> {
             new HistoryScene().open();
+        });
+
+        settingsButton.setOnAction((e) -> {
+            new SettingsScene().open();
         });
 
         return root;
