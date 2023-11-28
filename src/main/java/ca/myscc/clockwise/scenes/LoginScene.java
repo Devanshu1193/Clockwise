@@ -1,5 +1,6 @@
 package ca.myscc.clockwise.scenes;
 
+import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
 import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.database.pojo.User;
@@ -80,6 +81,7 @@ public class LoginScene extends BaseScene {
                 loginUserIdField.setText("");
                 loginPasswordField.setText("");
             } else {
+                Clockwise.setUser(user);
                 new MainScene().open();
             }
         });

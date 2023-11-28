@@ -1,6 +1,7 @@
 package ca.myscc.clockwise;
 
 import ca.myscc.clockwise.database.Database;
+import ca.myscc.clockwise.database.pojo.User;
 import ca.myscc.clockwise.scenes.BaseScene;
 import ca.myscc.clockwise.scenes.DatabaseSetupScene;
 import ca.myscc.clockwise.scenes.LoginScene;
@@ -22,6 +23,7 @@ public class Clockwise extends Application {
 
     // Constants
     private static Stage stage;
+    private static User user;
     private static final Timer timer = new Timer();
 
     @Override
@@ -73,6 +75,26 @@ public class Clockwise extends Application {
      */
     public static Timer getTimer() {
         return timer;
+    }
+
+    /**
+     * Gets the currently logged-in user.
+     * @return The user object, or null if not logged in
+     * @date Nov. 28, 2023
+     * @author Santio Yousif
+     */
+    public static User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets the currently logged-in user.
+     * @param user The user to log in as
+     * @date Nov. 28, 2023
+     * @author Santio Yousif
+     */
+    public static void setUser(User user) {
+        Clockwise.user = user;
     }
 
     /**

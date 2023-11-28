@@ -2,6 +2,8 @@ package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
+import ca.myscc.clockwise.database.Database;
+import ca.myscc.clockwise.database.pojo.Session;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.concurrent.Executors;
 
 /**
  * This scene is the main Scene or you can say main screen of Clockwise
@@ -73,6 +77,17 @@ public class MainScene extends BaseScene{
             if (Clockwise.getTimer().isRunning()) {
                 mainButton.setBackground(greenBg);
                 mainButton.setText("START");
+
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    Session session = new Session(
+                        Clockwise.getUser().getId(),
+                        Clockwise.getTimer().getTimeStarted(),
+                        System.currentTimeMillis() / 1000
+                    );
+
+                    Database.getInstance().sessions.track(session);
+                });
+
                 Clockwise.getTimer().reset();
             } else {
                 mainButton.setBackground(redBg);

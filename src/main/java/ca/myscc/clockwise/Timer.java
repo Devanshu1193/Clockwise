@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Timer {
 
+    private long timeStarted = System.currentTimeMillis() / 1000;
     private long seconds = 0;
     private ScheduledFuture<?> future = null;
     private final List<Runnable> observers = new ArrayList<>();
@@ -37,6 +38,8 @@ public class Timer {
 
     public void start() {
         if (this.future != null) return;
+        this.timeStarted = System.currentTimeMillis() / 1000;
+
         this.future = Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
             this.seconds++;
             this.sendUpdate();
@@ -66,6 +69,10 @@ public class Timer {
 
     public void listen(Runnable callback) {
         this.observers.add(callback);
+    }
+
+    public long getTimeStarted() {
+        return timeStarted;
     }
 
     public long getSeconds() {
