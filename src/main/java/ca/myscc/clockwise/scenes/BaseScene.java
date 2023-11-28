@@ -2,10 +2,7 @@ package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -33,10 +30,6 @@ public abstract class BaseScene extends Scene {
         root.getChildren().add(start());
     }
 
-
-
-
-
     /**
      * Gets the main stage for the project and changes the scene on it
      * over to this current scene object.
@@ -46,6 +39,7 @@ public abstract class BaseScene extends Scene {
     public void open() {
         Clockwise.getStage().setScene(this);
     }
+
     /**
      * This is called immediately after this scene has been constructed and setup.
      * You should place your code here as it provides you the root border pane
