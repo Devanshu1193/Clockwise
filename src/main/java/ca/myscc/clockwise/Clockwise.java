@@ -2,13 +2,14 @@ package ca.myscc.clockwise;
 
 import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.scenes.BaseScene;
-import ca.myscc.clockwise.scenes.DatabaseSetupScene;
+import ca.myscc.clockwise.scenes.LoginScene;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The main entrypoint for the Clockwise containing essential information
@@ -21,10 +22,10 @@ public class Clockwise extends Application {
     private static Stage stage;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws ExecutionException, InterruptedException {
         Clockwise.stage = stage;
         stage.setTitle("Clockwise");
-        new DatabaseSetupScene().open();
+        new LoginScene().open();
 
         Database.getInstance().pullData();
         Database.testConnection(Database.getInstance().getDetails()).thenAccept((error) -> {
