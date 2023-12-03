@@ -3,6 +3,7 @@ package ca.myscc.clockwise.scenes;
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
 import ca.myscc.clockwise.database.Database;
+import ca.myscc.clockwise.database.animations.WidthTransition;
 import ca.myscc.clockwise.database.pojo.Session;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.concurrent.Executors;
 
@@ -46,23 +48,58 @@ public class MainScene extends BaseScene{
         Text timer = new Text("00:00:00");
         timer.setFill(Constants.PRIMARY_COLOR);
         timer.setFont(Font.font(48));
-
-
+        
+        Background greenBg = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
+        Background redBg = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
+        Background cyan = new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(10), null));
+        Background grayBg = new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), null));
+        
         // Start button
         Button mainButton = new Button("START");
 
-        Background greenBg = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
-        Background redBg = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
-
         mainButton.setBackground(greenBg);
-        mainButton.setFont(Font.font("Arial",FontWeight.BOLD,18));
-
         mainButton.setFont(Font.font(16));
         mainButton.setMinWidth(300);
-        VBox buttonVBox = new VBox(mainButton);
-        VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
-        buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
+        
+        // Secondary button
+        Button secondaryButton = new Button("Pause");
+        secondaryButton.setBackground(cyan);
+        secondaryButton.setFont(Font.font(16));
+        secondaryButton.setMaxWidth(0);
+        secondaryButton.setVisible(false);
 
+        Button historyButton = new Button("View History");
+        historyButton.setBackground(grayBg);
+        historyButton.setFont(Font.font(14));
+        historyButton.setMinWidth(175);
+
+        Button settingsButton = new Button("Settings");
+        settingsButton.setBackground(grayBg);
+        settingsButton.setFont(Font.font(14));
+        settingsButton.setMinWidth(115);
+
+        HBox buttonBox = new HBox(historyButton, settingsButton);
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        
+        HBox mainButtonBox = new HBox(mainButton, secondaryButton);
+        
+        VBox buttonVBox = new VBox(
+            mainButtonBox,
+            buttonBox
+        );
+
+        VBox.setMargin(buttonVBox, new Insets(0,0,50,0));
+        buttonVBox.setSpacing(20);
+        buttonVBox.setAlignment(Pos.BOTTOM_LEFT);
+        mainButtonBox.setPadding(new Insets(
+            0,
+            0,
+            0,
+            (Constants.SCREEN_WIDTH / 2.0) - 150
+        ));
+        
+        mainButtonBox.setSpacing(10);
 
         root.setCenter(timer);
         root.setTop(vBox);
@@ -89,11 +126,54 @@ public class MainScene extends BaseScene{
                 });
 
                 Clockwise.getTimer().reset();
+                
+                WidthTransition mainAnimation = new WidthTransition(mainButton, 300);
+                mainAnimation.setDuration(Duration.seconds(0.6));
+                mainAnimation.play();
+                
+                WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, 0);
+                secondaryAnimation.setDuration(Duration.seconds(0.6));
+                secondaryAnimation.play();
+                
+                secondaryAnimation.onFinished(() -> {
+                    secondaryButton.setVisible(false);
+                    secondaryButton.setText("Pause");
+                });
+                
             } else {
                 mainButton.setBackground(redBg);
                 mainButton.setText("FINISH");
                 Clockwise.getTimer().start();
+                
+                WidthTransition mainAnimation = new WidthTransition(mainButton, mainButton.getWidth() / 4 * 2);
+                mainAnimation.setDuration(Duration.seconds(0.6));
+                
+                mainAnimation.play();
+                
+                WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, mainButton.getWidth() / 4 * 2 - 10);
+                secondaryAnimation.setDuration(Duration.seconds(0.6));
+                
+                secondaryButton.setVisible(true);
+                secondaryAnimation.play();
             }
+        });
+        
+        secondaryButton.setOnAction((e) -> {
+            if (!Clockwise.getTimer().isPaused()) {
+                Clockwise.getTimer().pause();
+                secondaryButton.setText("Resume");
+            } else {
+                Clockwise.getTimer().start();
+                secondaryButton.setText("Pause");
+            }
+        });
+
+        historyButton.setOnAction((e) -> {
+            new HistoryScene().open();
+        });
+
+        settingsButton.setOnAction((e) -> {
+            new SettingsScene().open();
         });
 
         return root;
