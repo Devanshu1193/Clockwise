@@ -12,6 +12,9 @@
    1. [Prerequisites](#requirements)
    2. [Installation](#getting-started)
 3. [Database Schema](#database-schema)
+4. [Screenshots](#screenshots)
+4. [License](#license)
+5. [Contributions](#contributions)
 
 # Introduction
 Clockwise is a JavaFX program developed by Santio, Devanshu, and Nashwan.
@@ -34,3 +37,12 @@ installed for it to work.
 
 # Database Schema
 ![clockwise-schema](https://github.com/Devanshu1193/Clockwise/assets/30200259/f6dcde15-e067-4142-ba61-3250cfc8a6ad)
+
+# Screenshots
+
+# License
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
+
+# Contributions
+Contributions are welcome! Check out [issues](https://github.com/Devanshu1193/Clockwise/issues) 
+and [pull requests](https://github.com/Devanshu1193/Clockwise/pulls) to get started.
