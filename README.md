@@ -39,6 +39,10 @@ installed for it to work.
 ![clockwise-schema](https://github.com/Devanshu1193/Clockwise/assets/30200259/f6dcde15-e067-4142-ba61-3250cfc8a6ad)
 
 # Screenshots
+![](https://github.com/Devanshu1193/Clockwise/assets/30200259/c9377eb2-4ded-44f7-a187-3707eec1be3f)
+![](https://github.com/Devanshu1193/Clockwise/assets/30200259/43780778-7a26-441c-bcba-38093516da3d)
+![](https://github.com/Devanshu1193/Clockwise/assets/30200259/31ceaa67-041a-4aaa-ae26-dfdb14c2b262)
+
 
 # License
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
