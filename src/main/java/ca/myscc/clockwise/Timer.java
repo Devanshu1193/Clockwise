@@ -17,6 +17,7 @@ public class Timer {
     private long timeStarted = System.currentTimeMillis() / 1000;
     private long seconds = 0;
     private ScheduledFuture<?> future = null;
+    private boolean paused = false;
     private final List<Runnable> observers = new ArrayList<>();
 
     private int getMinutes() {
@@ -39,6 +40,7 @@ public class Timer {
     public void start() {
         if (this.future != null) return;
         this.timeStarted = System.currentTimeMillis() / 1000;
+        this.paused = false;
 
         this.future = Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
             this.seconds++;
@@ -47,18 +49,26 @@ public class Timer {
     }
 
     public void pause() {
-        this.future.cancel(false);
-        this.future = null;
+        if (this.future != null) {
+            this.future.cancel(false);
+            this.future = null;
+        }
+        this.paused = true;
     }
 
     public void reset() {
         this.pause();
         this.seconds = 0;
         this.sendUpdate();
+        this.paused = false;
     }
 
     public boolean isRunning() {
-        return this.future != null;
+        return this.future != null || paused;
+    }
+    
+    public boolean isPaused() {
+        return this.paused;
     }
 
     private void sendUpdate() {
