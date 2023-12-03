@@ -27,5 +27,15 @@ public interface TimeDAO {
      * @date Nov. 21, 2023
      */
     List<Session> getSessions(int userId);
+    
+    /**
+     * Gets the total time tracked by a user at a specific day
+     * @param userId The user id to check
+     * @param daysAgo The amount of days ago to check
+     * @return A long representing the total time tracked in seconds
+     * @author Santio Yousif
+     * @date Dec. 3, 2023
+     */
+    Long getTotalTimeAtDay(int userId, int daysAgo);
 
 }

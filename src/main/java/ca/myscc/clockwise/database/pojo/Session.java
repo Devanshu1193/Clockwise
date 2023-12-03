@@ -35,6 +35,11 @@ public class  Session {
     public int getUser() {
         return user;
     }
+    
+    public double getMoneyEarned(Wage wage) {
+        Duration duration = Duration.ofSeconds(this.timeEnded - this.timeStarted);
+        return duration.toMinutes() / 60.0 * wage.getWage();
+    }
 
     public Session setUser(int user) {
         this.user = user;

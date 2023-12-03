@@ -7,9 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.Duration;
+import java.util.*;
 
 /**
  * Handles communication with the database to read/write data relating
@@ -52,7 +51,7 @@ public class TimeQuery implements TimeDAO {
     public List<Session> getSessions(int userId) {
         try {
             PreparedStatement statement = connection.prepareStatement("""
-            SELECT * FROM times WHERE user_id = ?
+            SELECT * FROM times WHERE user_id = ? ORDER BY time_started DESC
             """);
 
             statement.setInt(1, userId);
@@ -71,6 +70,34 @@ public class TimeQuery implements TimeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return Collections.emptyList();
+        }
+    }
+    
+    @Override
+    public Long getTotalTimeAtDay(int userId, int daysAgo) {
+        try {
+            long now = Duration.ofDays(Duration.ofMillis(System.currentTimeMillis()).toDays()).toSeconds();
+            long then = now - Duration.ofDays(daysAgo).toSeconds();
+            
+            PreparedStatement statement = connection.prepareStatement("""
+            SELECT * FROM times WHERE user_id = ? AND time_started > ? AND time_started < ?
+            """);
+
+            statement.setInt(1, userId);
+            statement.setLong(2, then);
+            statement.setLong(3, then + Duration.ofDays(1).toSeconds());
+            
+            ResultSet results = statement.executeQuery();
+            long total = 0L;
+            
+            while (results.next()) {
+                total += results.getLong("time_stopped") - results.getLong("time_started");
+            }
+            
+            return total;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0L;
         }
     }
 }
