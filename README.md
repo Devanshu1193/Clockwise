@@ -11,7 +11,7 @@
 2. Getting Started
    1. [Prerequisites](#requirements)
    2. [Installation](#getting-started)
-
+3. [Database Schema](#database-schema)
 
 # Introduction
 Clockwise is a JavaFX program developed by Santio, Devanshu, and Nashwan.
@@ -31,3 +31,6 @@ installed for it to work.
 2. Move into the directory `cd Clockwise`
 3. Build the project `./gradlew build`
 4. Run the built jar
+
+# Database Schema
+![clockwise-schema](https://github.com/Devanshu1193/Clockwise/assets/30200259/f6dcde15-e067-4142-ba61-3250cfc8a6ad)
