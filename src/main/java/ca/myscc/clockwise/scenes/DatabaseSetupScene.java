@@ -28,6 +28,8 @@ import javafx.scene.text.TextAlignment;
  */
 public class DatabaseSetupScene extends BaseScene {
 
+    private ConnectionDetails connection;
+    
     @Override
     Pane start() {
         BorderPane root = new BorderPane();
@@ -98,7 +100,7 @@ public class DatabaseSetupScene extends BaseScene {
             validateButton.setDisable(true);
             error.setText("");
 
-            ConnectionDetails connection = new ConnectionDetails(
+            connection = new ConnectionDetails(
                 hostTextField.getText(),
                 nameTextField.getText(),
                 userTextField.getText(),
@@ -121,7 +123,11 @@ public class DatabaseSetupScene extends BaseScene {
 
         continueButton.setOnAction(event -> {
             continueButton.setEffect(shadow);
-//            continueButton.setText("");
+            Database.getInstance().setDetails(connection);
+            Database.getInstance().connect();
+            
+            Database.getInstance().pushData();
+            new LoginScene().open();
         });
 
         validateButton.setMaxWidth(Double.MAX_VALUE);
