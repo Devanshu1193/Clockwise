@@ -1,4 +1,4 @@
-package ca.myscc.clockwise.database.charts;
+package ca.myscc.clockwise.charts;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;

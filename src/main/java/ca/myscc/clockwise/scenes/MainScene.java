@@ -3,7 +3,7 @@ package ca.myscc.clockwise.scenes;
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
 import ca.myscc.clockwise.database.Database;
-import ca.myscc.clockwise.database.animations.WidthTransition;
+import ca.myscc.clockwise.animations.WidthTransition;
 import ca.myscc.clockwise.database.pojo.Session;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

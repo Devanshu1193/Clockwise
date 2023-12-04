@@ -3,7 +3,7 @@ package ca.myscc.clockwise.scenes;
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
 import ca.myscc.clockwise.database.Database;
-import ca.myscc.clockwise.database.charts.HistoryBarChart;
+import ca.myscc.clockwise.charts.HistoryBarChart;
 import ca.myscc.clockwise.database.pojo.Session;
 import ca.myscc.clockwise.database.pojo.Wage;
 import javafx.application.Platform;

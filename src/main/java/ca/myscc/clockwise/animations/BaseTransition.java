@@ -1,4 +1,4 @@
-package ca.myscc.clockwise.database.animations;
+package ca.myscc.clockwise.animations;
 
 import javafx.animation.Transition;
 import javafx.beans.property.ObjectProperty;
