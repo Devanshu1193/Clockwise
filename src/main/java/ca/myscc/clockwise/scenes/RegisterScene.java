@@ -12,6 +12,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -58,7 +59,7 @@ public class RegisterScene extends BaseScene {
         lastNameLabel.setTextFill(Constants.TEXT_COLOR);
         passwordLabel.setTextFill(Constants.TEXT_COLOR);
         confirmPasswordLabel.setTextFill(Constants.TEXT_COLOR);
-
+        
         userIdField = new TextField();
         firstNameField = new TextField();
         lastNameField = new TextField();
@@ -73,27 +74,61 @@ public class RegisterScene extends BaseScene {
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
         root.setCenter(grid);
-
+        
+        VBox createButtonBox = new VBox(createButton);
+        createButtonBox.setPadding(new Insets(20, 0, 0, 0));
+        
+        VBox backToLoginButtonBox = new VBox(backToLoginButton);
+        backToLoginButtonBox.setPadding(new Insets(20, 0, 0, 0));
+        
+        VBox firstNameLabelBox = new VBox(firstNameLabel);
+        firstNameLabelBox.setPadding(new Insets(10, 0, 0, 0));
+        
+        VBox firstNameFieldBox = new VBox(firstNameField);
+        firstNameFieldBox.setPadding(new Insets(10, 0, 0, 0));
+        
+        VBox passwordLabelBox = new VBox(passwordLabel);
+        passwordLabelBox.setPadding(new Insets(10, 0, 0, 0));
+        
+        VBox passwordFieldBox = new VBox(passwordField);
+        passwordFieldBox.setPadding(new Insets(10, 0, 0, 0));
+        
         // Add components to the frame
         grid.add(userIdLabel, 0, 0);
         grid.add(userIdField, 1, 0);
-        grid.add(firstNameLabel, 0, 1);
-        grid.add(firstNameField, 1, 1);
+        grid.add(firstNameLabelBox, 0, 1);
+        grid.add(firstNameFieldBox, 1, 1);
         grid.add(lastNameLabel, 0, 2);
         grid.add(lastNameField, 1, 2);
-        grid.add(passwordLabel, 0, 3);
-        grid.add(passwordField, 1, 3);
+        grid.add(passwordLabelBox, 0, 3);
+        grid.add(passwordFieldBox, 1, 3);
         grid.add(confirmPasswordLabel, 0, 4);
         grid.add(confirmPasswordField, 1, 4);
-        grid.add(createButton, 1, 5);
-        grid.add(backToLoginButton, 1, 6);
+        grid.add(createButtonBox, 1, 5);
+        grid.add(backToLoginButtonBox, 0, 5);
 
         Text error = new Text("");
         error.setFill(Color.RED);
         grid.add(error, 0, 7, 2, 1);
-
+        
+        createButton.setMaxWidth(2000);
+        createButton.setPadding(new Insets(4, 12, 4, 12));
+        createButton.setBackground(Constants.GREEN_BUTTON_BACKGROUND);
+        backToLoginButton.setMaxWidth(2000);
+        backToLoginButton.setPadding(new Insets(4, 12, 4, 12));
+        backToLoginButton.setBackground(Constants.GRAY_BUTTON_BACKGROUND);
+        
         // Add action listeners
         createButton.setOnMouseClicked((e) -> {
+            if (userIdField.getText().isEmpty()
+                || firstNameField.getText().isEmpty()
+                || lastNameField.getText().isEmpty()
+                || passwordField.getText().isEmpty()
+                || confirmPasswordField.getText().isEmpty()) {
+                error.setText("Please fill out all fields");
+                return;
+            }
+            
             String userId = userIdField.getText();
             String password = passwordField.getText();
             String confirmPassword = confirmPasswordField.getText();
@@ -117,7 +152,7 @@ public class RegisterScene extends BaseScene {
         backToLoginButton.setOnMouseClicked((e) -> {
             new LoginScene().open();
         });
-
+        
         return root;
     }
 }
