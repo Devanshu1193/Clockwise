@@ -14,6 +14,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -63,15 +64,30 @@ public class LoginScene extends BaseScene {
         Button createAccountButton = new Button("Register");
         Text error = new Text("");
         error.setFill(Color.RED);
-
+        
+        VBox loginButtonBox = new VBox(loginButton);
+        loginButtonBox.setPadding(new Insets(10, 0, 0, 0));
+        
+        VBox createAccountButtonBox = new VBox(createAccountButton);
+        createAccountButtonBox.setPadding(new Insets(10, 0, 0, 0));
+        
         // Add components to the frame
         grid.add(loginUserIdLabel, 0, 0);
         grid.add(loginUserIdField, 1, 0);
         grid.add(loginPasswordLabel, 0, 1);
         grid.add(loginPasswordField, 1, 1);
-        grid.add(loginButton, 1, 2);
-        grid.add(createAccountButton, 1, 3);
-        grid.add(error, 0, 4, 2, 1);
+        grid.add(loginButtonBox, 1, 2);
+        grid.add(createAccountButtonBox, 0, 2);
+        grid.add(error, 0, 3, 2, 1);
+        
+        grid.setHgap(3);
+        
+        // Add space in between
+        loginButton.setMaxWidth(2000);
+        loginButton.setBackground(Constants.GREEN_BUTTON_BACKGROUND);
+        createAccountButton.setMaxWidth(2000);
+        createAccountButton.setPadding(new Insets(4, 12, 4, 12));
+        createAccountButton.setBackground(Constants.GRAY_BUTTON_BACKGROUND);
 
         // Add action listeners
         loginButton.setOnMouseClicked((e) -> {

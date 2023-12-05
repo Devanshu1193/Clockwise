@@ -34,12 +34,6 @@ public class HistoryScene extends BaseScene {
     @Override
     Pane start() {
         BorderPane root = new BorderPane();
-
-        Button backButton = new Button("Back");
-        backButton.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(4), null)));
-        backButton.setOnAction((e) -> {
-            new MainScene().open();
-        });
         
         HistoryBarChart historyBarChart = new HistoryBarChart();
         BorderPane.setAlignment(historyBarChart, Pos.CENTER);
@@ -67,10 +61,7 @@ public class HistoryScene extends BaseScene {
             List<Session> sessions = Database.getInstance().sessions.getSessions(Clockwise.getUser().getId());
             List<Session> firstFive = sessions.subList(0, Math.min(sessions.size(), 5));
             
-            // TODO: Add this when the user can set their wage
-//            Wage wage = Database.getInstance().wages.getWage(Clockwise.getUser().getId());
-            Wage wage = new Wage(15.2);
-            
+            Wage wage = Database.getInstance().wages.getWage(Clockwise.getUser().getId());
             Platform.runLater(() -> {
                 for (Session session : firstFive) {
                     Text title = new Text(dateFormat.format(session.getTimeStarted() * 1000));
@@ -82,8 +73,15 @@ public class HistoryScene extends BaseScene {
                         money.setFont(Font.font(16));
                         money.setTextAlignment(TextAlignment.RIGHT);
                         
-                        HBox.setMargin(money, new Insets(0, 0, 0, 10));
+                        Text time = new Text(session.asFormatted());
+                        time.setFill(Color.GRAY);
+                        time.setFont(Font.font(16));
+                        time.setTextAlignment(TextAlignment.RIGHT);
+                        
                         sessionBox.getChildren().add(money);
+                        sessionBox.getChildren().add(time);
+                        HBox.setMargin(money, new Insets(0, 0, 0, 10));
+                        HBox.setMargin(time, new Insets(0, 0, 0, 10));
                     }
                     
                     sessionBox.setPadding(new Insets(10));
@@ -93,10 +91,25 @@ public class HistoryScene extends BaseScene {
                 }
             });
         });
-
-        VBox rootBox = new VBox(backButton, historyChartWrapper, historyWrapper);
+        
+        
+        Button backButton = new Button("Back");
+        backButton.setBackground(Constants.GRAY_BUTTON_BACKGROUND);
+        backButton.setPadding(new Insets(5, 10, 5, 10));
+        backButton.setMinWidth(300);
+        backButton.setFont(Font.font(16));
+        backButton.setOnAction((e) -> {
+            new MainScene().open();
+        });
+        
+        VBox rootBox = new VBox(historyChartWrapper, historyWrapper);
         rootBox.setPadding(new Insets(10));
+        
         root.setCenter(rootBox);
+        root.setBottom(backButton);
+        root.setPadding(new Insets(0, 0, 50, 0));
+        
+        BorderPane.setAlignment(backButton, Pos.BOTTOM_CENTER);
         return root;
     }
 

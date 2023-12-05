@@ -19,7 +19,7 @@ public class Wage {
         this.wage = wage;
     }
 
-    double getWage() {
+    public double getWage() {
         return this.wage;
     }
 

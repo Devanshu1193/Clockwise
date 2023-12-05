@@ -2,15 +2,17 @@ package ca.myscc.clockwise.scenes;
 
 import ca.myscc.clockwise.Clockwise;
 import ca.myscc.clockwise.Constants;
-import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.animations.WidthTransition;
+import ca.myscc.clockwise.database.Database;
 import ca.myscc.clockwise.database.pojo.Session;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -49,32 +51,27 @@ public class MainScene extends BaseScene{
         timer.setFill(Constants.PRIMARY_COLOR);
         timer.setFont(Font.font(48));
         
-        Background greenBg = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
-        Background redBg = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
-        Background cyan = new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(10), null));
-        Background grayBg = new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), null));
-        
         // Start button
         Button mainButton = new Button("START");
 
-        mainButton.setBackground(greenBg);
+        mainButton.setBackground(Constants.GREEN_BUTTON_BACKGROUND);
         mainButton.setFont(Font.font(16));
         mainButton.setMinWidth(300);
         
         // Secondary button
         Button secondaryButton = new Button("Pause");
-        secondaryButton.setBackground(cyan);
+        secondaryButton.setBackground(Constants.CYAN_BUTTON_BACKGROUND);
         secondaryButton.setFont(Font.font(16));
         secondaryButton.setMaxWidth(0);
         secondaryButton.setVisible(false);
 
         Button historyButton = new Button("View History");
-        historyButton.setBackground(grayBg);
+        historyButton.setBackground(Constants.GRAY_BUTTON_BACKGROUND);
         historyButton.setFont(Font.font(14));
         historyButton.setMinWidth(175);
 
         Button settingsButton = new Button("Settings");
-        settingsButton.setBackground(grayBg);
+        settingsButton.setBackground(Constants.GRAY_BUTTON_BACKGROUND);
         settingsButton.setFont(Font.font(14));
         settingsButton.setMinWidth(115);
 
@@ -112,51 +109,25 @@ public class MainScene extends BaseScene{
 
         mainButton.setOnAction((e) -> {
             if (Clockwise.getTimer().isRunning()) {
-                mainButton.setBackground(greenBg);
-                mainButton.setText("START");
-
                 Executors.newSingleThreadExecutor().execute(() -> {
                     Session session = new Session(
                         Clockwise.getUser().getId(),
                         Clockwise.getTimer().getTimeStarted(),
                         System.currentTimeMillis() / 1000
                     );
-
+                    
                     Database.getInstance().sessions.track(session);
                 });
-
+                
                 Clockwise.getTimer().reset();
-                
-                WidthTransition mainAnimation = new WidthTransition(mainButton, 300);
-                mainAnimation.setDuration(Duration.seconds(0.6));
-                mainAnimation.play();
-                
-                WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, 0);
-                secondaryAnimation.setDuration(Duration.seconds(0.6));
-                secondaryAnimation.play();
-                
-                secondaryAnimation.onFinished(() -> {
-                    secondaryButton.setVisible(false);
-                    secondaryButton.setText("Pause");
-                });
-                
             } else {
-                mainButton.setBackground(redBg);
-                mainButton.setText("FINISH");
                 Clockwise.getTimer().start();
-                
-                WidthTransition mainAnimation = new WidthTransition(mainButton, mainButton.getWidth() / 4 * 2);
-                mainAnimation.setDuration(Duration.seconds(0.6));
-                
-                mainAnimation.play();
-                
-                WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, mainButton.getWidth() / 4 * 2 - 10);
-                secondaryAnimation.setDuration(Duration.seconds(0.6));
-                
-                secondaryButton.setVisible(true);
-                secondaryAnimation.play();
             }
+            
+            updateButton(mainButton, secondaryButton);
         });
+        
+        updateButton(mainButton, secondaryButton);
         
         secondaryButton.setOnAction((e) -> {
             if (!Clockwise.getTimer().isPaused()) {
@@ -177,6 +148,46 @@ public class MainScene extends BaseScene{
         });
 
         return root;
+    }
+    
+    private void updateButton(Button mainButton, Button secondaryButton) {
+        if (!Clockwise.getTimer().isRunning()) {
+            mainButton.setBackground(Constants.GREEN_BUTTON_BACKGROUND);
+            mainButton.setText("START");
+            
+            secondaryButton.setVisible(false);
+            secondaryButton.setText("Pause");
+            
+            WidthTransition mainAnimation = new WidthTransition(mainButton, 300);
+            mainAnimation.setDuration(Duration.seconds(0.6));
+            mainAnimation.play();
+            
+            WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, 0);
+            secondaryAnimation.setDuration(Duration.seconds(0.6));
+            secondaryAnimation.play();
+            
+            secondaryAnimation.onFinished(() -> {
+                secondaryButton.setVisible(false);
+                secondaryButton.setText("Pause");
+            });
+            
+        } else {
+            mainButton.setBackground(Constants.RED_BUTTON_BACKGROUND);
+            mainButton.setText("FINISH");
+            
+            mainButton.setMinWidth(300);
+            
+            WidthTransition mainAnimation = new WidthTransition(mainButton, mainButton.getMinWidth() / 4 * 2);
+            mainAnimation.setDuration(Duration.seconds(0.6));
+            
+            mainAnimation.play();
+            
+            WidthTransition secondaryAnimation = new WidthTransition(secondaryButton, mainButton.getMinWidth() / 4 * 2 - 10);
+            secondaryAnimation.setDuration(Duration.seconds(0.6));
+            
+            secondaryButton.setVisible(true);
+            secondaryAnimation.play();
+        }
     }
 
 }

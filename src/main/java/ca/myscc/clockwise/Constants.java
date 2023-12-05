@@ -2,8 +2,8 @@ package ca.myscc.clockwise;
 
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * Holds constants relating to the project, anywhere from screen size
@@ -39,5 +39,10 @@ public final class Constants {
     public static final Background BACKGROUND = new Background(new BackgroundFill(
         BACKGROUND_COLOR, null, null
     ));
-
+    
+    public static final Background GREEN_BUTTON_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(10), null));
+    public static final Background CYAN_BUTTON_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(10), null));
+    public static final Background GRAY_BUTTON_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), null));
+    public static final Background RED_BUTTON_BACKGROUND = new Background(new BackgroundFill(Color.color(0.93333334f, 0.5647059f, 0.5647059f), new CornerRadii(10), null));
+    
 }
