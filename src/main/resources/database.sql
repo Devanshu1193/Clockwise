@@ -16,7 +16,7 @@ CREATE TABLE times(
 
 CREATE TABLE wages(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     wage DECIMAL(6,2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
